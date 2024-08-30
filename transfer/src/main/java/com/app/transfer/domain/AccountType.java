@@ -9,7 +9,8 @@ public enum AccountType {
   SALARY("SALARY"),
   RETIREMENT("RETIREMENT"),
   PF("PF"),
-  TRUST("TRUST");
+  TRUST("TRUST"),
+  HDFC_BANK("HDFC_BANK");
   private String type;
 
   AccountType(String type) {

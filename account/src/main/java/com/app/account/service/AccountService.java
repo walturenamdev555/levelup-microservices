@@ -7,6 +7,8 @@ import java.util.List;
 public interface AccountService {
     Account addAccount(Account account);
 
+    Account updateBalance(Account account);
+
     String addDefaultAccounts();
 
     List<Account> getAllAccounts();

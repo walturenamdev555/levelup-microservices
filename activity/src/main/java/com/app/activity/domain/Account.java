@@ -1,12 +1,11 @@
-package com.app.transfer.domain;
+package com.app.activity.domain;
 
+import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
-import java.math.BigDecimal;
 
 @Builder
 @Data

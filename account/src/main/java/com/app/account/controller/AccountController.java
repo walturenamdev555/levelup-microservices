@@ -46,6 +46,7 @@ public class AccountController {
     return ResponseEntity.ok().body(accountService.getById(accountId));
   }
 
+  // Checking git status
   @GetMapping("/status")
   public ResponseEntity<String> getStatus() {
     return ResponseEntity.ok().body("Account Service running successfully");

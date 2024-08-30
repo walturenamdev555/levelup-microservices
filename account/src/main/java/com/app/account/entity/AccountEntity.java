@@ -1,26 +1,34 @@
 package com.app.account.entity;
 
 import com.app.account.domain.AccountType;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "Account")
 public class AccountEntity {
 
   @Id
-  @Column(name = "id", nullable = false)
+  @Column(name = "id", nullable = false, unique = true)
   private String id;
 
-  @Column(name = "accountNumber", nullable = false)
+  @Column(name = "accountNumber", nullable = false, unique = true)
   private Long accountNumber;
 
   @Column(name = "holderName", nullable = false)
   private String accountHolderName;
+
+  @Column(name = "ifscCode", nullable = false)
+  private String ifscCode;
 
   @Column(name = "type", nullable = false)
   @Enumerated(EnumType.STRING)
@@ -28,6 +36,9 @@ public class AccountEntity {
 
   @Column(name = "isActive", nullable = false)
   private boolean isActive;
+
+  @Column(name = "balance", nullable = false)
+  private BigDecimal balance;
 
   public String getId() {
     return id;
@@ -67,5 +78,21 @@ public class AccountEntity {
 
   public void setActive(boolean active) {
     isActive = active;
+  }
+
+  public BigDecimal getBalance() {
+    return balance;
+  }
+
+  public void setBalance(BigDecimal balance) {
+    this.balance = balance;
+  }
+
+  public String getIfscCode() {
+    return ifscCode;
+  }
+
+  public void setIfscCode(String ifscCode) {
+    this.ifscCode = ifscCode;
   }
 }

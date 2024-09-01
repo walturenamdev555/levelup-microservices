@@ -1,13 +1,14 @@
 package com.app.account.service;
 
 import com.app.account.domain.Account;
+import com.app.model.AccountRequest;
 
 import java.util.List;
 
 public interface AccountService {
-    Account addAccount(Account account);
+    Account addAccount(AccountRequest  account);
 
-    Account updateBalance(Account account);
+    Account updateBalance(AccountRequest account);
 
     String addDefaultAccounts();
 

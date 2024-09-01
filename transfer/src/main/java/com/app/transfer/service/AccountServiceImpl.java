@@ -14,16 +14,16 @@ public class AccountServiceImpl implements AccountService {
 
   @Override
   public List<Account> getAccounts() {
-    return accountFeign.getAllAccounts();
+    return accountFeign.findAllAccounts().getAccounts();
   }
 
   @Override
   public Account getByAccountNumber(Long accountNumber) {
-    return accountFeign.getByAccountNumber(accountNumber);
+    return accountFeign.getByAccountNumber(accountNumber).getAccounts().get(0);
   }
 
   @Override
   public Account getByAccountId(String accountId) {
-    return accountFeign.getByAccountId(accountId);
+    return accountFeign.getByAccountId(accountId).getAccounts().get(0);
   }
 }

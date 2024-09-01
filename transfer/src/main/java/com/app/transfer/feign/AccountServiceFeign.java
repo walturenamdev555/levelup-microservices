@@ -1,6 +1,7 @@
 package com.app.transfer.feign;
 
 import com.app.transfer.domain.Account;
+import com.app.transfer.domain.AccountResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,14 +14,14 @@ import java.util.List;
 public interface AccountServiceFeign {
 
   @GetMapping("/accounts/findAll")
-  List<Account> getAllAccounts();
+  AccountResponse findAllAccounts();
 
   @GetMapping("/accounts/accountNumber/{accountNumber}")
-  Account getByAccountNumber(@PathVariable Long accountNumber);
+  AccountResponse getByAccountNumber(@PathVariable Long accountNumber);
 
   @GetMapping("/accounts/accountId/{accountId}")
-  Account getByAccountId(@PathVariable String accountId);
+  AccountResponse getByAccountId(@PathVariable String accountId);
 
   @PutMapping("/accounts/updateBalance")
-  Account updateBalance(@RequestBody Account account);
+  AccountResponse updateBalance(@RequestBody Account account);
 }

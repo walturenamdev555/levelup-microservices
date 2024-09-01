@@ -1,25 +1,24 @@
 package com.app.account.entity;
 
 import com.app.account.domain.AccountType;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "Account")
 public class AccountEntity {
 
   @Id
-  @Column(name = "id", nullable = false, unique = true)
-  private String id;
+  @Column(name = "accountId", nullable = false, unique = true)
+  private String accountId;
 
   @Column(name = "accountNumber", nullable = false, unique = true)
   private Long accountNumber;
@@ -37,15 +36,21 @@ public class AccountEntity {
   @Column(name = "isActive", nullable = false)
   private boolean isActive;
 
+  @Column(name = "accountOpenDate", nullable = false)
+  private LocalDateTime accountOpenDate;
+
+  @Column(name = "accountClosedDate")
+  private LocalDate accountClosedDate;
+
   @Column(name = "balance", nullable = false)
   private BigDecimal balance;
 
-  public String getId() {
-    return id;
+  public String getAccountId() {
+    return accountId;
   }
 
-  public void setId(String id) {
-    this.id = id;
+  public void setAccountId(String accountId) {
+    this.accountId = accountId;
   }
 
   public Long getAccountNumber() {
@@ -94,5 +99,21 @@ public class AccountEntity {
 
   public void setIfscCode(String ifscCode) {
     this.ifscCode = ifscCode;
+  }
+
+  public LocalDateTime getAccountOpenDate() {
+    return accountOpenDate;
+  }
+
+  public void setAccountOpenDate(LocalDateTime accountOpenDate) {
+    this.accountOpenDate = accountOpenDate;
+  }
+
+  public LocalDate getAccountClosedDate() {
+    return accountClosedDate;
+  }
+
+  public void setAccountClosedDate(LocalDate accountClosedDate) {
+    this.accountClosedDate = accountClosedDate;
   }
 }

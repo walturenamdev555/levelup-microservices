@@ -1,0 +1,359 @@
+openapi: 3.0.3
+info:
+  title: 'Account service'
+  description: 'Account Api'
+  contact:
+    name: Test Service
+  version: 1.0.0
+paths:
+  '/accounts/findAll':
+    get:
+      tags:
+        - accounts
+      summary: get all accounts
+      operationId: findAllAccounts
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountResponse'
+        '400':
+          description: 'Bad Request'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: 'Unauthorized'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 'Forbidden'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 'Internal Server Error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  '/accounts/accountId/{accountId}':
+    get:
+      tags:
+        - accounts
+      summary: Get account by id
+      operationId: getAccountById
+      parameters:
+        - name: accountId
+          in: path
+          description: Account Id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountResponse'
+        '400':
+          description: 'Bad Request'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: 'Unauthorized'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 'Forbidden'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 'Internal Server Error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  '/accounts/accountNumber/{accountNumber}':
+    get:
+      tags:
+        - accounts
+      summary: Get account by id
+      operationId: getAccountByAccountNumber
+      parameters:
+        - name: accountNumber
+          in: path
+          description: Relationship Id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountResponse'
+        '400':
+          description: 'Bad Request'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: 'Unauthorized'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 'Forbidden'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 'Internal Server Error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  '/accounts':
+    post:
+      tags:
+        - accounts
+      summary: add account
+      operationId: addAccount
+      requestBody:
+        description: account object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountResponse'
+        '400':
+          description: 'Bad Request'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: 'Unauthorized'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 'Forbidden'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 'Internal Server Error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  '/accounts/updateBalance':
+    put:
+      tags:
+        - accounts
+      summary: add account
+      operationId: updateBalance
+      requestBody:
+        description: account object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountResponse'
+        '400':
+          description: 'Bad Request'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: 'Unauthorized'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 'Forbidden'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 'Internal Server Error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    AccountResponse:
+      type: object
+      description: 'This is account response'
+      nullable: false
+      properties:
+        error:
+          $ref: '#/components/schemas/PartialError'
+        accountId:
+          type: string
+          nullable: true
+        accounts:
+          type: array
+          nullable: true
+          items:
+            $ref: '#/components/schemas/Account'
+
+    Account:
+      type: object
+      nullable: false
+      properties:
+        accountId:
+          type: string
+          nullable: false
+          description: 'Unique Account Id'
+        accountNumber:
+          type: integer
+          format: int64
+          nullable: true
+          description: 'Unique Account Number'
+        accountHolderName:
+          type: string
+          nullable: true
+          description: 'Account holder name'
+        ifscCode:
+          type: string
+          nullable: true
+          description: 'Account holder name'
+        balance:
+          type: number
+          format: double
+          nullable: false
+          default: 0.0
+        type:
+          type: string
+          enum: [ HDFC_BANK, SAVING, CURRENT, SALARY, RETIREMENT, PF, TRUST ]
+          description: 'Descript the type of account'
+        isActive:
+          type: boolean
+          nullable: false
+          default: true
+          description: 'Descibe account is active or not'
+        accountOpenDate:
+          type: string
+          nullable: false
+          description: 'Account open date'
+        accountClosedDate:
+          type: string
+          nullable: false
+          description: 'Account open date'
+        isAccountFullyLoaded:
+          type: boolean
+          nullable: false
+          default: true
+          description: 'Describs if account is fully loaded or not'
+
+    AccountRequest:
+      type: object
+      nullable: false
+      properties:
+        accountNumber:
+          type: integer
+          format: int64
+          nullable: true
+          description: 'Unique Account Number'
+        accountHolderName:
+          type: string
+          nullable: true
+          description: 'Account holder name'
+        ifscCode:
+          type: string
+          nullable: true
+          description: 'Account holder name'
+        balance:
+          type: number
+          format: double
+          nullable: false
+          default: 0.0
+        accountType:
+          type: string
+          enum: [ HDFC_BANK, SAVING, CURRENT, SALARY, RETIREMENT, PF, TRUST ]
+          description: 'Descript the type of account'
+
+
+    PartialError:
+      type: object
+      nullable: false
+      description: 'Shows the failed call and treire error response'
+      properties:
+        failedType:
+          type: string
+          nullable: true
+          description: 'Show accounts has failed to load'
+        description:
+          type: string
+          nullable: true
+          description: 'User understandable error message'
+    ErrorResponse:
+      type: object
+      description: 'Error response'
+      properties:
+        errors:
+          type: array
+          minItems: 0
+          items:
+            $ref: '#/components/schemas/Error'
+    Error:
+      type: object
+      description: 'Error object'
+      required:
+        - code
+        - description
+      properties:
+        code:
+          type: integer
+          description: 'Error code description'
+        description:
+          type: string
+          description: 'Description of a code'
+        fieldNames:
+          type: array
+          minItems: 0
+          items:
+            type: string
+            description: 'Name of a fields causing error'

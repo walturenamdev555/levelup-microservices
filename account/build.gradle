@@ -1,7 +1,10 @@
 plugins {
 	id 'java'
+	id 'jacoco'
 	id 'org.springframework.boot' version '3.3.3'
 	id 'io.spring.dependency-management' version '1.1.6'
+	id 'io.openapiprocessor.openapi-processor' version '2023.1'
+	id 'io.freefair.lombok' version '8.2.2'
 }
 
 group = 'com.app'
@@ -32,12 +35,29 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+	annotationProcessor 'org.projectlombok:lombok'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'com.microsoft.sqlserver:mssql-jdbc'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	// Junit
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	/* Open api **/
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0'
+	implementation "io.swagger.parser.v3:swagger-parser-v3:2.1.16"
+	implementation 'io.swagger.core.v3:swagger-annotations-jakarta:2.2.9'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	// Mapper
+	implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+	implementation 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+	// https://mvnrepository.com/artifact/org.mapstruct/mapstruct-processor
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+	implementation 'javax.xml.bind:jaxb-api:2.3.1'
 }
 
 dependencyManagement {
@@ -48,4 +68,58 @@ dependencyManagement {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+
+/* API generation task. */
+
+openapiProcessor {
+	apiPath "$projectDir/api/resources/static/activity-api.yaml"
+	spring {
+		processor "io.openapiprocessor:openapi-processor-spring:2023.1.2"
+		targetDir "$buildDir/generated/sources/main/java"
+		mapping "$projectDir/api/resources/mapping/global-mapping.yaml"
+	}
+}
+
+tasks.register('copyApiDefinition', Copy) {
+	from 'api/resources/static'
+	into 'build/resources/main'
+}
+
+// this is required to access generated apis in project
+sourceSets {
+	main {
+		java {
+			srcDir "$buildDir/generated/sources/main/java"
+		}
+	}
+}
+
+test {
+	useJUnitPlatform()
+	finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+	dependsOn test
+	afterEvaluate {
+		classDirectories.setFrom(files(classDirectories.files.collect({
+			fileTree(dir: it, excludes: ['com.app.account.domain.*'])
+		})))
+	}
+	reports {
+		xml.required = true
+	}
+}
+
+compileJava {
+	dependsOn 'processSpring'
+	dependsOn copyApiDefinition
+/*	dependsOn copyDockerfile
+	dependsOn copyDeployFiles*/
+
+	options.compilerArgs << '-parameters'
+	options.compilerArgs += ['-Amapstruct.unmappedTargetPolicy=IGNORE']
+	options.encoding = 'UTF-8'
 }

@@ -1,0 +1,27 @@
+openapi-processor-mapping: v3
+
+options:
+  package-name: com.app
+  javadoc: true
+  format-code: false
+  bean-validation: "jakarta"
+
+map:
+  types:
+    - type: array => java.util.List
+    - type: "AccountResponse @ lombok.Data"
+    - type: "AccountResponse @ lombok.Builder"
+    - type: "AccountRequest @ lombok.Data"
+    - type: "AccountRequest @ lombok.Builder"
+    - type: "Account @ lombok.Data"
+    - type: "Account @ lombok.Builder"
+    - type: "Error @ lombok.Data"
+    - type: "Error @ lombok.Builder"
+    - type: "ErrorResponse @ lombok.Data"
+    - type: "ErrorResponse @ lombok.Builder"
+    - type: "PartialError @ lombok.Data"
+    - type: "PartialError @ lombok.Builder"
+    - type: "AccountAccountType @ lombok.Data"
+    - type: "AccountAccountType @ lombok.Builder"
+
+

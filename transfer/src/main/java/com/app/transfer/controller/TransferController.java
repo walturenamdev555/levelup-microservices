@@ -38,9 +38,10 @@ public class TransferController {
   }
 
   @PostMapping
-  public void transfer(@RequestBody Transfer transfer){
-    transferService.transfer(transfer);
+  public Transfer transfer(@RequestBody Transfer transfer) {
+    return transferService.transfer(transfer);
   }
+
   @GetMapping("/accounts/getAccounts")
   public ResponseEntity<List<Account>> getAccounts() {
     return ResponseEntity.ok().body(accountService.getAccounts());
@@ -51,7 +52,7 @@ public class TransferController {
     return ResponseEntity.ok().body(accountService.getByAccountNumber(accountNumber));
   }
 
-  @GetMapping("/accounts/getAccounts/{accountId}")
+  @GetMapping("/accounts/accountId/{accountId}")
   public ResponseEntity<Account> getAccountById(@PathVariable String accountId) {
     return ResponseEntity.ok().body(accountService.getByAccountId(accountId));
   }

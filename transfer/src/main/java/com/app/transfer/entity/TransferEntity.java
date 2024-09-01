@@ -1,6 +1,5 @@
 package com.app.transfer.entity;
 
-import com.app.transfer.domain.TransferType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -9,6 +8,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "TRANSFER")
@@ -27,6 +28,9 @@ public class TransferEntity {
   @Column(name = "type", nullable = false)
   @Enumerated(EnumType.STRING)
   private TransferType type;
+
+  @Column(name = "transactionDate", nullable = false)
+  private LocalDateTime transactionDate;
 
   @Embedded private TransferAmount transferAmount;
 

@@ -13,6 +13,7 @@ public class ActivityMapper {
         .transactionId(transfer.getTransactionId())
         .type(transfer.getType())
         .status(transfer.getStatus())
+        .transactionDate(transfer.getTransactionDate())
         .transferAmount(
             TransferAmount.builder()
                 .amount(transfer.getTransferAmount().getAmount())

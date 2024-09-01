@@ -3,6 +3,8 @@ package com.app.activity.domain;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Builder
 @Data
 public class Activity {
@@ -11,5 +13,6 @@ public class Activity {
   private Account toAccount;
   private TransferType type;
   private TransferAmount transferAmount;
+  private LocalDateTime transactionDate;
   private Status status;
 }

@@ -12,6 +12,6 @@ public class AccountRepoImpl implements AccountRepo {
 
   @Override
   public Account getAccountById(Long accountId) {
-    return accountServiceFeign.getByAccountNumber(accountId);
+    return accountServiceFeign.getByAccountNumber(accountId).getAccounts().get(0);
   }
 }

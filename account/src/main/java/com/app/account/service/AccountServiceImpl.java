@@ -7,6 +7,7 @@ import com.app.account.mapper.DomainToEntityMapper;
 import com.app.account.mapper.EntityToDomainMapper;
 import com.app.account.repo.AccountRepository;
 import com.app.model.AccountRequest;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,11 +32,16 @@ public class AccountServiceImpl implements AccountService {
 
   @Override
   @Transactional
+  // @CircuitBreaker(name = "add-account", fallbackMethod = "addAccountFallback")
   public Account addAccount(AccountRequest account) {
     AccountEntity entity = domainToEntityMapper.map(account);
     AccountEntity accountEntity = repository.save(entity);
     return mapper.map(accountEntity);
   }
+  public Account addAccountFallback(Throwable accountRequest) {
+    return Account.builder().accountHolderName("Account Not Found").build();
+  }
+
 
   @Override
   @Transactional

@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 
 // This config class is not even required
 
-@Configuration
+//@Configuration
 public class OpenApiConfig {
   private static final String MESSAGE = "File could not load";
 
@@ -20,7 +20,7 @@ public class OpenApiConfig {
     System.out.println(location);
   }
 
-  @Bean
+//  @Bean
   public OpenAPI apiInfo() {
     return Optional.ofNullable(new OpenAPIV3Parser().read("api/resources/static/activity-api.yaml"))
         .orElseThrow(RuntimeException::new);
